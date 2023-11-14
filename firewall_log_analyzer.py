@@ -1,3 +1,5 @@
+import sys
+
 def parse_firewall_logs(log_file):
     # Open the specified file which stored log details in read mode.
     with open(log_file, 'r') as file:
@@ -64,11 +66,17 @@ def generate_summary_report(potential_threats):
         # If no potential threats were found, indicate that in the summary.
         summary_report += "No potential threats identified in the log files.\n"
 
+    # Return the summary report as a string.
     return summary_report
 
 if __name__ == "__main__":
-    # Specify the log file.
-    log_file = "firewall_log.txt"
+    # Check if the user provided a log file as a command-line argument.
+    if len(sys.argv) != 2:
+        print("Usage: python firewall_log_analyzer.py <path_to_log_file>")
+        sys.exit(1)
+
+    # Get the log file path from the command-line argument.
+    log_file = sys.argv[1]
 
     # Parse the firewall logs from the log file and store them in 'parsed_logs'.
     parsed_logs = parse_firewall_logs(log_file)
@@ -79,5 +87,5 @@ if __name__ == "__main__":
     # Generate a summary report based on the potential threats.
     summary_report = generate_summary_report(potential_threats)
 
-    # Print log summary report
+    # Print log summary report.
     print(summary_report)
